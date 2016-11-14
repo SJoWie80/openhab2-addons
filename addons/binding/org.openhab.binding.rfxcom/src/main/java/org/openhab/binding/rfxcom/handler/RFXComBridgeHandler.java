@@ -248,11 +248,11 @@ public class RFXComBridgeHandler extends BaseBridgeHandler {
                     break;
 
                 case RFXComBindingConstants.BRIDGE_TYPE_RFXREC433:
-                    msg.transceiverType = TransceiverType._443_92MHZ_RECEIVER_ONLY;
+                    msg.transceiverType = TransceiverType._433_92MHZ_RECEIVER_ONLY;
                     break;
 
                 case RFXComBindingConstants.BRIDGE_TYPE_RFXTRX433:
-                    msg.transceiverType = TransceiverType._443_92MHZ_TRANSCEIVER;
+                    msg.transceiverType = TransceiverType._433_92MHZ_TRANSCEIVER;
                     break;
 
                 case RFXComBindingConstants.BRIDGE_TYPE_MANUAL_BRIDGE:
@@ -260,10 +260,10 @@ public class RFXComBridgeHandler extends BaseBridgeHandler {
                     if (conf.transceiverType != null) {
                         switch (conf.transceiverType) {
                             case RFXComBindingConstants.TRANSCEIVER_433_92MHz:
-                                msg.transceiverType = TransceiverType._443_92MHZ_TRANSCEIVER;
+                                msg.transceiverType = TransceiverType._433_92MHZ_TRANSCEIVER;
                                 break;
                             case RFXComBindingConstants.TRANSCEIVER_433_92MHz_R:
-                                msg.transceiverType = TransceiverType._443_92MHZ_RECEIVER_ONLY;
+                                msg.transceiverType = TransceiverType._433_92MHZ_RECEIVER_ONLY;
                                 break;
                             case RFXComBindingConstants.TRANSCEIVER_310MHz:
                                 msg.transceiverType = TransceiverType._310MHZ;
