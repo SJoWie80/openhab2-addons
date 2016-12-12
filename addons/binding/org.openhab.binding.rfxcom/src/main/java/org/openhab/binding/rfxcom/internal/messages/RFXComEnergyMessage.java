@@ -8,9 +8,6 @@
  */
 package org.openhab.binding.rfxcom.internal.messages;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.eclipse.smarthome.core.library.items.NumberItem;
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.types.State;
@@ -18,6 +15,9 @@ import org.eclipse.smarthome.core.types.Type;
 import org.eclipse.smarthome.core.types.UnDefType;
 import org.openhab.binding.rfxcom.RFXComValueSelector;
 import org.openhab.binding.rfxcom.internal.exceptions.RFXComException;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * RFXCOM data class for energy message.
@@ -31,7 +31,6 @@ public class RFXComEnergyMessage extends RFXComBaseMessage {
     private static float WATTS_TO_AMPS_CONVERSION_FACTOR = 230F;
 
     public enum SubType {
-        ELEC1(0),
         ELEC2(1),
         ELEC3(2),
 
@@ -50,6 +49,16 @@ public class RFXComEnergyMessage extends RFXComBaseMessage {
         public byte toByte() {
             return (byte) subType;
         }
+
+        public static SubType fromByte(int input) {
+            for (SubType c : SubType.values()) {
+                if (c.subType == input) {
+                    return c;
+                }
+            }
+
+            return SubType.UNKNOWN;
+        }
     }
 
     private final static List<RFXComValueSelector> supportedInputValueSelectors = Arrays.asList(
@@ -58,7 +67,7 @@ public class RFXComEnergyMessage extends RFXComBaseMessage {
 
     private final static List<RFXComValueSelector> supportedOutputValueSelectors = Arrays.asList();
 
-    public SubType subType = SubType.ELEC1;
+    public SubType subType = SubType.UNKNOWN;
     public int sensorId = 0;
     public byte count = 0;
     public double instantAmp = 0;
@@ -99,12 +108,7 @@ public class RFXComEnergyMessage extends RFXComBaseMessage {
 
         super.encodeMessage(data);
 
-        try {
-            subType = SubType.values()[super.subType];
-        } catch (Exception e) {
-            subType = SubType.UNKNOWN;
-        }
-
+        subType = SubType.fromByte(super.subType);
         sensorId = (data[4] & 0xFF) << 8 | (data[5] & 0xFF);
         count = data[6];
 
